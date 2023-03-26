@@ -22,7 +22,7 @@ To start the server run:
 online-terminal
 ```
 
-Then, head to `http://localhost:3640` in your browser and your online terminal should show up.
+Then, head to [`http://localhost:3640`](http://localhost:3640) in your browser and your online terminal should show up.
 
 If you want to set your own custom password or port, parse in the following options:
 
