@@ -1,6 +1,6 @@
 {
   "name": "online-terminal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easily run commands from your browser.",
   "bin": {
     "online-terminal": "src/index.js",
