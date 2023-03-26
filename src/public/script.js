@@ -7,7 +7,7 @@ const run = () => {
     if(!command.value) return console.log("The command field is empty, returning...");
     if(!password.value) return console.log("The password field is empty, returning...");
 
-    fetch("http://localhost:3640/api/execute", {
+    fetch("/api/execute", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
