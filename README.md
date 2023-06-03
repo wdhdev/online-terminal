@@ -1,33 +1,42 @@
-# Online Terminal
-Easily run commands from your browser.
+# 🌐 Online Terminal
+Easily execute commands on your computer from your browser.
 
 ## Preview
 ![Preview](https://raw.githubusercontent.com/wdhdev/online-terminal/main/media/preview.png)
 
-## Installation
-To install Online Terminal, run the following command in your terminal.
+# 💾 Installation
+To install Online Terminal, run the following command in your terminal:
 
-```bash
+```
 npm install -g online-terminal
 ```
 
-## Usage
-Getting started with Online Terminal is easy!
+# 💻 Usage
+> You can also use the alias `ot`.
 
-> You can also use the aliases `onlineterminal` and `ot`.
+To start the terminal server run the following command:
 
-To start the server run:
-
-```bash
+```
 online-terminal
 ```
 
-Then, head to [`http://localhost:3640`](http://localhost:3640) in your browser and your online terminal should show up.
+Once you run the command, your browser should automatically open the terminal website.
 
-If you want to set your own custom password or port, parse in the following options:
+## Options
+> You can use multiple options at the same time.
 
-```bash
-online-terminal --password YOUR_PASSWORD_GOES_HERE --port 1234
+### --password
+If you want to set your own custom password, you can set it using `--password`:
+
+#### Example
+```
+online-terminal --password YOUR_PASSWORD
 ```
 
-> You do not need to use both at the same time, just use whichever options you need.
+### --port
+If you want to use a custom port, you can set it using `--port`:
+
+#### Example
+```
+online-terminal --port 1234
+```

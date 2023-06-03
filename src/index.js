@@ -6,6 +6,7 @@ const app = express();
 import chalk from "chalk";
 import cors from "cors";
 import { execaSync } from "execa";
+import open from "open";
 import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -23,20 +24,6 @@ const port = argv.port || 3640;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use((req, res, next) => {
-    console.log(chalk.bgGrey(new Date()));
-
-    console.log(
-        chalk.grey(req.ip), 
-        chalk.yellow(req.method), 
-        chalk.underline(req.hostname), 
-        chalk.blue(chalk.underline(req.url)),
-        "\n"
-    )
-
-    next();
-})
-
 app.use("/", express.static(__dirname + "/public"));
 
 app.post("/api/execute", async (req, res) => {
@@ -44,40 +31,47 @@ app.post("/api/execute", async (req, res) => {
     if(req.body.password !== password) return res.status(401).json({ "message": "The password specified is incorrect.", "code": "INCORRECT_PASSWORD" });
     if(!req.body.command) return res.status(400).json({ "message": "No command was specified.", "code": "NO_COMMAND" });
 
-    console.log(`${chalk.grey(os.userInfo().username + "@" + os.hostname())} ${chalk.blue("$")} ${req.body.command}`);
+    console.log(`\n${chalk.gray(os.userInfo().username + "@" + os.hostname())} ${chalk.blue("$")} ${req.body.command}`);
 
     let output;
 
     try {
         output = execaSync(req.body.command);
 
-        console.log(`${output.stdout || output.stderr}\n`);
+        console.log(output.stdout || output.stderr);
 
-        res.json({
+        res.status(200).json({
             "message": "The command ran successfully.",
             "code": "COMMAND_SUCCESS",
-            "output": `${output.stdout || output.stderr}`
+            "output": output.stdout || output.stderr
         })
     } catch(err) {
-        console.log(`${err.message}\n`);
+        console.log(err.message);
 
-        res.json({ "message": "The command did not run successfully.", "code": "COMMAND_FAILURE", "output": `${err.message}` });
+        res.status(500).json({
+            "message": "The command did not run successfully.",
+            "code": "COMMAND_FAILURE",
+            "output": err.message
+        })
     }
 })
 
 app.listen(port, () => {
     console.log(
-        chalk.bgGreen(chalk.bold("\n SERVER ")), chalk.grey("Listening on Port:"),
-        chalk.blue(chalk.underline(`${port}`))
+        chalk.bgGray(" SERVER "),
+        chalk.greenBright("Listening on Port:"),
+        chalk.blue(chalk.underline(port))
     )
 
     console.log(
-        chalk.bgBlue(" DASHBOARD "),
-        chalk.blueBright(chalk.underline(`http://localhost:${port}`))
+        chalk.bgGray(" DASHBOARD "),
+        chalk.blue(chalk.underline(`http://localhost${port === 80 ? "" : `:${port}`}`))
     )
 
     console.log(
-        chalk.bgGrey(" PASSWORD "),
-        chalk.red(`${password}\n`)
+        chalk.bgGray(" PASSWORD "),
+        chalk.yellow(password)
     )
+
+    open(`http://localhost${port === 80 ? "" : `:${port}`}`);
 })
